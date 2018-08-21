@@ -66,3 +66,20 @@ import levenshtein from 'clustring/knn/levenshtein'
 const bins = clusterByKnn(bucket, levenshtein(2), { blockSize: 5 })
 // bins will be same as in previous example.
 ```
+
+Developing
+==========
+
+```bash
+npm install
+npm test -- --watch             # runs tests continuously
+npm run-script build -- --watch # builds continuously
+```
+
+Pick a feature; write a test; make it pass; commit.
+
+Deploying
+---------
+
+1. Update `version` in `package.json`
+2. `npm publish`

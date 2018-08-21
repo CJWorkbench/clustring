@@ -82,5 +82,5 @@ Deploying
 ---------
 
 1. Update `version` in `package.json`
-2. `git commit -m 'vx.x.x && git tag vx.x.x && git push && git push vx.x.x`
+2. `git commit -m 'vx.x.x && git tag vx.x.x && git push && git push origin vx.x.x`
 2. `npm publish`

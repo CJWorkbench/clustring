@@ -1,0 +1,45 @@
+{
+  "name": "clustring",
+  "version": "0.0.1",
+  "description": "Algorithms for clustering strings",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CJWorkbench/clustring.git"
+  },
+  "keywords": [
+    "Cluster",
+    "strings",
+    "knn",
+    "levenshtein",
+    "fingerprint",
+    "ngram"
+  ],
+  "author": "Adam Hooper <adam@adamhooper.com>",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/CJWorkbench/clustring/issues"
+  },
+  "homepage": "https://github.com/CJWorkbench/clustring#readme",
+  "devDependencies": {
+    "@babel/core": "^7.0.0-rc.2",
+    "@babel/preset-env": "^7.0.0-rc.2",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.4.2",
+    "jest": "^23.5.0",
+    "rollup": "^0.64.1",
+    "rollup-plugin-babel": "^4.0.0-beta.8"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "watchPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
+  }
+}

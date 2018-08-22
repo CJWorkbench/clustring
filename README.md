@@ -60,7 +60,7 @@ Here's some sample code:
 import { clusterByKnn } from 'clustring'
 import levenshtein from 'clustring/knn/levenshtein'
 
-const clusterer = clusterByKnn(bucket, levenshtein(2), { blockSize: 5 })
+const clusterer = clusterByKnn(bucket, levenshtein(), 2, { blockSize: 5 })
 clusterer.cluster()
   .then(bins => { ... })
 // bins will be same as in previous example.
@@ -80,16 +80,26 @@ To track progress, try something like this:
 ```javascript
 const clusterer = clusterByKey(bucket, fingerprint(), { tickMs: 8 })
 
-const interval = setInterval((() => console.log('Progress: ', clusterer.progress)), 10)
+let timeout = null
+function reportProgressAndReschedule () {
+  console.log('Progress: ', clusterer.progress)
+  timeout = setTimeout(reportProgressAndReschedule, 1)
+}
+// start progress-report loop
+timeout = setTimeout(reportProgressAndReschedule, 1)
+
 clusterer.cluster()
   .then(bins => {
-    clearInterval(interval)
+    clearTimeout(timeout)
+    // ... handle bins
   })
 ```
 
 During `cluster()`, clustring will periodically check whether it has blocked
 the main thread for more than `tickMs` milliseconds. if it has, it will cede
-control to the event loop for one single event-loop "tick" before resuming.
+control to the event loop for one event-loop "tick" before resuming. Your
+`setTimeout()` callback will only be called once `cluster()` cedes control,
+even though it requests to be called after `1` millisecond.
 
 Cancellation
 ------------

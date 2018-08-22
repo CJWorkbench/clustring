@@ -54,17 +54,16 @@ describe('clusterByKey', () => {
     }
     const fn = _ => 'x'
 
-    const ticks = []
+    let progressReport = null
+    setTimeout((() => progressReport = clusterer.progress), 0)
 
     const clusterer = clusterByKey(bucket, fn, {
       tickMs: 0,
       nIterationsBetweenTickChecks: 0x1
     })
-    const interval = setInterval((_ => ticks.push(clusterer.progress)), 0)
     await clusterer.cluster()
-    clearInterval(interval)
 
-    expect(ticks).toEqual([ 1.0/3 ])
+    expect(progressReport).toEqual(1.0 / 3)
     expect(clusterer.progress).toEqual(1)
   })
 

@@ -1,8 +1,6 @@
-function tick () {
-  return new Promise(resolve => setTimeout(resolve, 0))
-}
+import { tick } from '../util'
 
-class Clusterer {
+class KeyClusterer {
   constructor (bucket, keyer, options) {
     this.bucket = bucket
     this.keyer = keyer
@@ -24,7 +22,7 @@ class Clusterer {
     const keyToBin = {}
 
     let i = 0
-    const t1 = new Date()
+    let t1 = new Date()
 
     const strs = Object.keys(bucket)
 
@@ -42,6 +40,7 @@ class Clusterer {
           if (this.canceled) {
             throw new Error('canceled')
           }
+          t1 = new Date()
         }
       }
 
@@ -82,5 +81,5 @@ export default function clusterByKey (bucket, keyer, options={}) {
     ...options
   }
 
-  return new Clusterer(bucket, keyer, options)
+  return new KeyClusterer(bucket, keyer, options)
 }

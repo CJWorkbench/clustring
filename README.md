@@ -52,7 +52,7 @@ to compare two strings.
 Distance functions aren't cheap. A _block_-based approach avoids comparisons
 by grouping strings into "blocks" that all contain the same _N_ sequence of
 characters. (Effectively, this skips comparisons by assuming infinite distance
-if there is no such sequence).
+if there is no such sequence). **TODO: implement this**
 
 Here's some sample code:
 

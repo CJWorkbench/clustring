@@ -1,10 +1,14 @@
 import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import nodeResolve from 'rollup-plugin-node-resolve'
 import pkg from './package.json'
 
 const plugins = [
   babel({
     exclude: ['node_modules/**']
-  })
+  }),
+  nodeResolve(),
+  commonjs()
 ]
 
 const entries = [
@@ -13,20 +17,22 @@ const entries = [
     plugins,
     output: {
       name: 'clustring',
-      format: 'cjs',
+      format: 'es',
+      sourcemap: true,
       file: 'index.js'
     }
   }
 ]
 
-for (const keyFunction of [ 'fingerprint' ]) {
+for (const fn of [ 'key/fingerprint', 'knn/levenshtein' ]) {
   entries.push({
-    input: `src/key/${keyFunction}.js`,
+    input: `src/${fn}.js`,
     plugins,
     output: {
-      name: `key/${keyFunction}.js`,
-      format: 'cjs',
-      file: `key/${keyFunction}.js`
+      name: `${fn}.js`,
+      format: 'es',
+      sourcemap: true,
+      file: `${fn}.js`
     }
   })
 }

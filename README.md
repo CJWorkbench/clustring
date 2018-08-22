@@ -97,6 +97,12 @@ During `cluster()`, clustring will periodically check whether it has blocked
 the main thread for more than `tickMs` milliseconds. if it has, it will cede
 control to the event loop for one single event-loop "tick" before resuming.
 
+Cancellation
+------------
+
+If you wish to stop clustering, run `clusterer.cancel()`. Of course, you can
+only execute `clusterer.cancel()` during a tick, so consider your `tickMs`.
+
 Developing
 ==========
 

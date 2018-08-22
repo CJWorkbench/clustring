@@ -73,4 +73,20 @@ describe('clusterByKey', () => {
     expect(ticks).toEqual([ 1.0/3 ])
     expect(clusterer.progress).toEqual(1)
   })
+
+  it('should cancel', async () => {
+    const bucket = {
+      a: 3,
+      c: 3,
+      b: 3
+    }
+    const fn = _ => 'x'
+    const clusterer = clusterByKey(bucket, fn, {
+      tickMs: 0,
+      nIterationsBetweenTickChecks: 0x1
+    })
+    setTimeout((() => clusterer.cancel()), 0)
+
+    await expect(clusterer.cluster()).rejects.toThrow('canceled')
+  })
 })

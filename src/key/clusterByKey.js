@@ -7,7 +7,13 @@ class Clusterer {
     this.bucket = bucket
     this.keyer = keyer
     this.options = options
+
     this.progress = 0
+    this.canceled = false
+  }
+
+  cancel () {
+    this.canceled = true
   }
  
   async cluster () {
@@ -28,7 +34,14 @@ class Clusterer {
         const t2 = new Date()
         if (t2 - t1 >= tickMs) {
           this.progress = (i - 1) / strs.length
+
           await tick()
+
+          // We can only be canceled while we aren't executing. So now that
+          // we're back from our tick is the only time we need to check.
+          if (this.canceled) {
+            throw new Error('canceled')
+          }
         }
       }
 

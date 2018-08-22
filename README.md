@@ -28,7 +28,10 @@ string. Here's a code sample, using the `bucket` from above:
 import { clusterByKey } from 'clustring'
 import fingerprint from 'clustring/key/fingerprint'
 
-const bins = clusterByKey(bucket, fingerprint())
+const clusterer = clusterByKey(bucket, fingerprint())
+
+clusterer.cluster()
+  .then(bins => { ... })
 // bins is:
 // [
 //   {
@@ -63,9 +66,36 @@ Here's some sample code:
 import { clusterByKnn } from 'clustring'
 import levenshtein from 'clustring/knn/levenshtein'
 
-const bins = clusterByKnn(bucket, levenshtein(2), { blockSize: 5 })
+const clusterer = clusterByKnn(bucket, levenshtein(2), { blockSize: 5 })
+clusterer.cluster()
+  .then(bins => { ... })
 // bins will be same as in previous example.
 ```
+
+Progress reporting
+------------------
+
+`cluster()` returns a
+[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+immediately and processes in the background (in the current thread). It cedes
+control to the event loop every few milliseconds so your app remains
+responsive.
+
+To track progress, try something like this:
+
+```javascript
+const clusterer = clusterByKey(bucket, fingerprint(), { tickMs: 8 })
+
+const interval = setInterval((() => console.log('Progress: ', clusterer.progress)), 10)
+clusterer.cluster()
+  .then(bins => {
+    clearInterval(interval)
+  })
+```
+
+During `cluster()`, clustring will periodically check whether it has blocked
+the main thread for more than `tickMs` milliseconds. if it has, it will cede
+control to the event loop for one single event-loop "tick" before resuming.
 
 Developing
 ==========

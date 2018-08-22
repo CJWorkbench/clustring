@@ -1,7 +1,7 @@
 import clusterByKey from './clusterByKey'
 
 describe('clusterByKey', () => {
-  it('should cluster by key', () => {
+  it('should cluster by key', async () => {
     const bucket = {
       a: 3,
       b: 4,
@@ -10,7 +10,7 @@ describe('clusterByKey', () => {
 
     const fn = (s) => s === 'a' ? 'x' : 'y'
 
-    const result = clusterByKey(bucket, fn)
+    const result = await clusterByKey(bucket, fn).cluster()
     expect(result.sort((x, y) => x.count - y.count)).toEqual([
       {
         name: 'a',
@@ -27,7 +27,7 @@ describe('clusterByKey', () => {
     ])
   })
 
-  it('should pick highest-count name', () => {
+  it('should pick highest-count name', async () => {
     const bucket = {
       a: 3,
       b: 4
@@ -35,11 +35,11 @@ describe('clusterByKey', () => {
 
     const fn = _ => 'x'
 
-    const result = clusterByKey(bucket, fn)
+    const result = await clusterByKey(bucket, fn).cluster()
     expect(result[0].name).toEqual('b')
   })
 
-  it('should localeCompare if counts are equal', () => {
+  it('should localeCompare if counts are equal', async () => {
     const bucket = {
       a: 3,
       c: 3,
@@ -48,7 +48,29 @@ describe('clusterByKey', () => {
 
     const fn = _ => 'x'
 
-    const result = clusterByKey(bucket, fn)
+    const result = await clusterByKey(bucket, fn).cluster()
     expect(result[0].name).toEqual('a')
+  })
+
+  it('should cede control to the main loop after too many iterations', async () => {
+    const bucket = {
+      a: 3,
+      c: 3,
+      b: 3
+    }
+    const fn = _ => 'x'
+
+    const ticks = []
+
+    const clusterer = clusterByKey(bucket, fn, {
+      tickMs: 0,
+      nIterationsBetweenTickChecks: 0x1
+    })
+    const interval = setInterval((_ => ticks.push(clusterer.progress)), 0)
+    await clusterer.cluster()
+    clearInterval(interval)
+
+    expect(ticks).toEqual([ 1.0/3 ])
+    expect(clusterer.progress).toEqual(1)
   })
 })

@@ -50,11 +50,11 @@ describe('clusterByKnn', () => {
     setTimeout((() => progressReport = clusterer.progress), 0)
     const clusterer = clusterByKnn(bucket, distance, 1, {
       tickMs: 0,
-      nIterationsBetweenTickChecks: 0x3
+      nIterationsBetweenTickChecks: 0x1
     })
     expect(clusterer.progress).toEqual(0)
     await clusterer.cluster()
-    expect(progressReport).toEqual(3 / 9)
+    expect(progressReport).toEqual(1 / 6)
     expect(clusterer.progress).toEqual(1)
   })
 
@@ -63,7 +63,7 @@ describe('clusterByKnn', () => {
     const distance = () => 1
     const clusterer = clusterByKnn(bucket, distance, 1, {
       tickMs: 0,
-      nIterationsBetweenTickChecks: 0x3
+      nIterationsBetweenTickChecks: 0x1
     })
     setTimeout((() => clusterer.cancel()), 0)
 

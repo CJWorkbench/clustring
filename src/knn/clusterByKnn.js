@@ -20,21 +20,24 @@ class KnnClusterer {
     const { tickMs, nIterationsBetweenTickChecks } = this.options
 
     const strs = Object.keys(bucket)
+    const nStrs = strs.length
     const bins = []
-    const strToBin = {} // a => bin, only if buckets has >1 element
 
     let t1 = new Date()
     let i = 0
+    const nComparisons = Math.max(0, nStrs * (nStrs - 1))
 
-    for (const a of strs) {
+    for (let ai = 0; ai < nStrs; ai++) {
+      const a = strs[ai]
       const aCount = bucket[a]
+      let bin = null // set iff any b clusters with a
 
-      for (const b of strs) {
+      for (let bi = ai + 1; bi < nStrs; bi++) {
         i += 1
         if ((i & nIterationsBetweenTickChecks) === 0) {
           const t2 = new Date()
           if (t2 - t1 >= tickMs) {
-            this.progress = (i - 1) / (strs.length * strs.length)
+            this.progress = (i - 1) / nComparisons
 
             await tick()
 
@@ -47,25 +50,21 @@ class KnnClusterer {
           }
         }
 
-        if (a === b) continue
-        if (a in strToBin && b in strToBin[a].bucket) continue
-        if (b in strToBin && a in strToBin[b].bucket) continue
-
+        const b = strs[bi]
         const d = distance(a, b)
+
         if (d <= radius) {
-          const bCount = bucket[b]
-          let bin = strToBin[a]
           if (!bin) {
             bin = {
               name: a,
               count: aCount,
               bucket: { [a]: aCount }
             }
-            strToBin[a] = bin
             bins.push(bin)
           }
 
           const maxCount = bin.bucket[bin.name]
+          const bCount = bucket[b]
           if (bCount > maxCount || (bCount === maxCount && b.localeCompare(bin.name) < 0)) {
             bin.name = b
           }

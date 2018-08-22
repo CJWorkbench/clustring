@@ -39,12 +39,6 @@ clusterer.cluster()
 //     "key": "commonword",
 //     "count": 23,
 //     "bucket": { "commonWord": 3, "CommonWord": 20 }
-//   },
-//   {
-//     "name": "SuperRareWord",
-//     "key": "superrareword",
-//     "count": 1,
-//     "bucket": { "SuperRareWord": 1}
 //   }
 // ]
 ```

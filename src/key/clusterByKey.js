@@ -71,6 +71,7 @@ class Clusterer {
 
     this.progress = 1
     return bins
+      .filter(b => Object.keys(b.bucket).length > 1)
   }
 }
 

@@ -11,13 +11,7 @@ describe('clusterByKey', () => {
     const fn = (s) => s === 'a' ? 'x' : 'y'
 
     const result = await clusterByKey(bucket, fn).cluster()
-    expect(result.sort((x, y) => x.count - y.count)).toEqual([
-      {
-        name: 'a',
-        key: 'x',
-        count: 3,
-        bucket: { a: 3 }
-      },
+    expect(result).toEqual([
       {
         key: 'y',
         name: 'b',

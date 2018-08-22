@@ -1,4 +1,6 @@
-import distance from './levenshtein'
+import levenshtein from './levenshtein'
+
+const distance = levenshtein()
 
 const Tests = [
   [ 'equal', 'equal', 0 ],

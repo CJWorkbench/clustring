@@ -1,3 +1,5 @@
 import levenshtein from 'js-levenshtein'
 
-export default levenshtein
+const ret = () => levenshtein
+
+export default ret

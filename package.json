@@ -1,6 +1,6 @@
 {
   "name": "clustring",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Algorithms for clustering strings",
   "main": "index.js",
   "scripts": {

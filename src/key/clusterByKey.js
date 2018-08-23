@@ -26,12 +26,13 @@ class KeyClusterer {
 
     const strs = Object.keys(bucket)
 
-    for (const str of strs) {
-      i += 1
-      if ((i & nIterationsBetweenTickChecks) === 0) {
+    for (let i = 0; i < strs.length; i++) {
+      const str = strs[i]
+
+      if (((i + 1) & nIterationsBetweenTickChecks) === 0) {
         const t2 = new Date()
         if (t2 - t1 >= tickMs) {
-          this.progress = (i - 1) / strs.length
+          this.progress = i / strs.length
 
           await tick()
 
@@ -75,11 +76,10 @@ class KeyClusterer {
 }
 
 export default function clusterByKey (bucket, keyer, options={}) {
-  options = {
+  options = Object.assign({
     tickMs: 8,
-    nIterationsBetweenTickChecks: 0xfff, // must be power of two, minus one
-    ...options
-  }
+    nIterationsBetweenTickChecks: 0xfff // must be power of two, minus one
+  }, options)
 
   return new KeyClusterer(bucket, keyer, options)
 }

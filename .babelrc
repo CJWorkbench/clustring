@@ -1,5 +1,7 @@
 {
-  "plugins": ["@babel/plugin-proposal-unicode-property-regex"],
+  "plugins": [
+    "@babel/plugin-proposal-unicode-property-regex"
+  ],
   "env": {
     "test": {
       "presets": [
@@ -8,7 +10,23 @@
     },
     "development": {
       "presets": [
-        [ "@babel/preset-env", { "modules": false } ]
+        [ "@babel/preset-env", {
+          "modules": false,
+          //"debug": true,
+          "useBuiltIns": "usage",
+          // Shrink enormously with "targets" and "exclude":
+          // "targets": don't bother with browsers that can't, e.g., handle await
+          "targets": {
+            "browsers": [ "last 2 versions", "not dead", "not ie <=11", "not android <= 67" ]
+          },
+          "exclude": [
+            // "web.dom": Babel probably shouldn't be trying to include it
+            "web.dom.iterable",
+            // "es6.regexp": assume String.replace() won't produce a bug _for us_ in IE Edge
+            "es6.regexp.replace",
+            "es6.regexp.split"
+          ],
+        } ]
       ]
     }
   }

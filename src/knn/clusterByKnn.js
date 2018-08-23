@@ -80,11 +80,10 @@ class KnnClusterer {
 }
 
 export default function clusterByKnn (bucket, distance, radius, options={}) {
-  options = {
+  options = Object.assign({
     tickMs: 8,
-    nIterationsBetweenTickChecks: 0xfff, // must be power of two, minus one
-    ...options
-  }
+    nIterationsBetweenTickChecks: 0xfff // must be power of two, minus one
+  }, options)
 
   return new KnnClusterer(bucket, distance, radius, options)
 }

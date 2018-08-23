@@ -224,7 +224,9 @@ function doFingerprint (s) {
 
   const uniqueTokens = []
   let lastToken = null
-  for (const token of tokens) {
+  const nTokens = tokens.length
+  for (let i = 0; i < nTokens; i++) {
+    const token = tokens[i]
     if (token !== lastToken) {
       uniqueTokens.push(token)
       lastToken = token

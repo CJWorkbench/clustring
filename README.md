@@ -63,7 +63,7 @@ import levenshtein from 'clustring/knn/levenshtein'
 const clusterer = clusterByKnn(bucket, levenshtein(), 2, { blockSize: 5 })
 clusterer.cluster()
   .then(bins => { ... })
-// bins will be same as in previous example.
+// bins will be same as in previous example, minus "key"
 ```
 
 Progress reporting

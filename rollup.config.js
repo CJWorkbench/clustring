@@ -17,7 +17,7 @@ const entries = [
     plugins,
     output: {
       name: 'clustring',
-      format: 'es',
+      format: 'cjs',
       sourcemap: true,
       file: 'index.js'
     }
@@ -30,7 +30,7 @@ for (const fn of [ 'key/fingerprint', 'knn/levenshtein' ]) {
     plugins,
     output: {
       name: `${fn}.js`,
-      format: 'es',
+      format: 'cjs',
       sourcemap: true,
       file: `${fn}.js`
     }

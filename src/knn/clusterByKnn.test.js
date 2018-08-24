@@ -29,6 +29,19 @@ describe('clusterByKnn', () => {
     expect(bins2).toEqual([])
   })
 
+  it('should not put a value into two clusters', async () => {
+    const bucket = { a: 1, b: 1, c: 1, d: 1 }
+    const distance = (a, b) => 1
+    const bins = await clusterByKnn(bucket, distance, 1).cluster()
+    expect(bins).toEqual([
+      {
+        name: 'a',
+        count: 4,
+        bucket: { a: 1, b: 1, c: 1, d: 1 }
+      }
+    ])
+  })
+
   it('should pick highest-count name', async () => {
     const bucket = { a: 3, b: 4 }
     const distance = () => 1

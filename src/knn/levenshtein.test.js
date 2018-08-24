@@ -15,7 +15,7 @@ const Tests = [
   [ 'nix in middle', 'nix n middle', 1 ],
   [ 'right empty', '', 11 ],
   [ '', 'left empty', 10 ],
-  [ 'accentś', 'accėnts', 2 ],
+  [ 'accentś', 'accėnts', 2 ]
 ]
 
 describe('levenshtein', () => {

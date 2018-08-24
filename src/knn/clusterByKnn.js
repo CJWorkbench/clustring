@@ -19,6 +19,7 @@ class KnnClusterer {
     const { bucket, distance, radius } = this
     const { tickMs, nIterationsBetweenTickChecks } = this.options
 
+    const usedStrs = {} // strs that have been placed in a cluster already
     const strs = Object.keys(bucket)
     const nStrs = strs.length
     const bins = []
@@ -29,6 +30,12 @@ class KnnClusterer {
 
     for (let ai = 0; ai < nStrs; ai++) {
       const a = strs[ai]
+
+      if (a in usedStrs) {
+        i += (nStrs - ai - 1)
+        continue
+      }
+
       const aCount = bucket[a]
       let bin = null // set iff any b clusters with a
 
@@ -51,6 +58,9 @@ class KnnClusterer {
         }
 
         const b = strs[bi]
+
+        if (b in usedStrs) continue
+
         const d = distance(a, b)
 
         if (d <= radius) {
@@ -70,6 +80,7 @@ class KnnClusterer {
           }
           bin.count += bCount
           bin.bucket[b] = bCount
+          usedStrs[b] = null
         }
       }
     }

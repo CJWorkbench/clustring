@@ -1,10 +1,11 @@
 {
   "name": "clustring",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Algorithms for clustering strings",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",
+    "prepublishOnly": "npm test",
     "prepare": "npm run build",
     "test": "jest"
   },

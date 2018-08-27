@@ -1,5 +1,5 @@
-import levenshtein from 'js-levenshtein'
+import boundedLevenshtein from 'bounded-levenshtein'
 
-const ret = () => levenshtein
-
-export default ret
+export default function levenshtein (d=Infinity) {
+  return (a, b) => boundedLevenshtein(a, b, d)
+}

@@ -28,7 +28,7 @@ describe('main.js', () => {
       "SuperRareWord": 1
     }
 
-    const bins = await clusterByKnn(bucket, levenshtein(), 2).cluster()
+    const bins = await clusterByKnn(bucket, levenshtein(2), 2).cluster()
     expect(bins).toEqual([
       {
         "name": "CommonWord",

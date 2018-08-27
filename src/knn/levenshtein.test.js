@@ -1,6 +1,6 @@
 import levenshtein from './levenshtein'
 
-const distance = levenshtein()
+const distance = levenshtein(12)
 
 const Tests = [
   [ 'equal', 'equal', 0 ],
@@ -24,4 +24,8 @@ describe('levenshtein', () => {
       expect(distance(a, b)).toEqual(d)
     })
   }
+
+  it('should work when above maxDistance', () => {
+    expect(levenshtein(3)('abcdef', 'zyxwvut')).toEqual(Infinity)
+  })
 })

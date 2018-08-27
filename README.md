@@ -60,7 +60,9 @@ Here's some sample code:
 import { clusterByKnn } from 'clustring'
 import levenshtein from 'clustring/knn/levenshtein'
 
-const clusterer = clusterByKnn(bucket, levenshtein(), 2, { blockSize: 5 })
+// levenshtein(2) is an optimization of levenshtein() that returns 0, 1, 2, or
+// Infinity. You may use levenshtein(), but it's not recommended.
+const clusterer = clusterByKnn(bucket, levenshtein(2), 2, { blockSize: 5 })
 clusterer.cluster()
   .then(bins => { ... })
 // bins will be same as in previous example, minus "key"

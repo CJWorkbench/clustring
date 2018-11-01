@@ -22,7 +22,7 @@
     "ngram"
   ],
   "author": "Adam Hooper <adam@adamhooper.com>",
-  "license": "AGPL-3.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/CJWorkbench/clustring/issues"
   },
